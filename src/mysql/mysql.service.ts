@@ -8,6 +8,8 @@ import {
 } from '@nestjs/typeorm/dist/interfaces/typeorm-options.interface';
 
 import {Config, mysqlConfig} from '../configs/config.type';
+import {UsersEntity} from "../database/entities/users.entity";
+import {RolesEntity} from "../database/entities/roles.entity";
 
 @Injectable()
 export class MysqlService implements TypeOrmOptionsFactory {
@@ -21,16 +23,13 @@ export class MysqlService implements TypeOrmOptionsFactory {
             username: mysqlConfig.user,
             password: mysqlConfig.password,
             database: mysqlConfig.dbName,
-            entities: [
-                path.join(
-                    process.cwd(),
-                    'dist',
-                    'src',
-                    'database',
-                    'entities',
-                    '*.entity.js',
-                ),
-            ],
+            entities: [ path.resolve(
+                __dirname,
+                '..',
+                'database',
+                'entities',
+                '*.entity{.ts,.js}',
+            ),],
             migrations: [
                 path.join(
                     process.cwd(),

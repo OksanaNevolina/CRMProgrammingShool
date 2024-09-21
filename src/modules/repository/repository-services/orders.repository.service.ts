@@ -18,7 +18,7 @@ export class OrdersRepositoryService {
     const {
       page = 1,
       limit = 25,
-      order = 'created_at',
+      order = 'id',
       sortOrder = 'DESC',
       ...searchObject
     } = query;

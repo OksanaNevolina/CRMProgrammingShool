@@ -113,7 +113,7 @@
           }
         ],
         "url": {
-          "raw": "http://localhost:5000/orders?limit=25&page=1",
+          "raw": "http://localhost:5000/orders?limit=25&page=1&order=id&sortOrder=DESC",
           "protocol": "http",
           "host": ["localhost"],
           "port": "5000",
@@ -126,6 +126,14 @@
             {
               "key": "page",
               "value": "1"
+            },
+            {
+              "key": "order",
+              "value": "id"
+            },
+            {
+              "key": "sortOrder",
+              "value": "DESC"
             }
           ]
         }

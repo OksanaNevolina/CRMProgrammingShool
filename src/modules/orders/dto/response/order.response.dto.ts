@@ -14,4 +14,6 @@ export class OrderResponseDto {
   utm: string | null;
   msg: string | null;
   status: string | null;
+  manager: string | null;
+  group: string | null;
 }

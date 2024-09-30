@@ -52,4 +52,10 @@ export class OrdersEntity {
 
   @Column({ type: 'varchar', length: 15, nullable: true })
   status: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  manager: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  group: string;
 }

@@ -21,6 +21,8 @@ export class OrderMapper {
       utm: order.utm,
       msg: order.msg,
       status: order.status,
+      manager: order.manager,
+      group: order.group,
     };
   }
 
@@ -41,6 +43,8 @@ export class OrderMapper {
     entity.utm = dto.utm;
     entity.msg = dto.msg;
     entity.status = dto.status;
+    entity.manager = dto.manager;
+    entity.group = dto.group;
 
     return entity;
   }

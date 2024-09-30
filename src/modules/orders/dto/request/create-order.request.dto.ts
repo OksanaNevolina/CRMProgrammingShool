@@ -86,6 +86,14 @@ export class CreateOrderRequestDto {
 
   @IsOptional()
   @IsString()
-  @IsIn(['pending', 'paid', 'canceled']) // Replace with actual status options
+  @IsIn(['pending', 'paid', 'canceled'])
   status?: string;
+
+  @IsString()
+  @IsOptional()
+  manager: string;
+
+  @IsString()
+  @IsOptional()
+  group: string;
 }

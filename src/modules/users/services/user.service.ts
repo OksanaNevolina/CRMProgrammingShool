@@ -13,12 +13,13 @@ import { EntityManager, Repository } from 'typeorm';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { RefreshTokenEntity } from '../../../database/entities/refresh-token.entity';
 import { UsersEntity } from '../../../database/entities/users.entity';
-import { UserMapper } from './user.mapper';
+
 import { UsersRepository } from '../../repository/providers/constants';
+import {UserMapper} from "./user.mapper";
+import {AuthMapper} from "../../auth/services/auth.mapper";
 
 @Injectable()
 export class UserService {
-  private UserMapper: any;
   constructor(
     @InjectEntityManager()
     private readonly entityManager: EntityManager,
@@ -33,7 +34,7 @@ export class UserService {
         const entity = await userRepository.findOneBy({
           id: userData.id,
         });
-        return this.UserMapper.toResponseDto(entity);
+        return UserMapper.toResponseDto(entity)
       } catch (error) {
         throw new UnprocessableEntityException('User not found');
       }

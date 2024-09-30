@@ -61,6 +61,8 @@ export class OrdersRepositoryService {
       utm: order.utm,
       msg: order.msg,
       status: order.status,
+      manager: order.manager,
+      group: order.group,
     }));
 
     return {

@@ -1,4 +1,4 @@
-import {IsNotEmpty, IsString, Length, Matches} from 'class-validator';
+import {IsString, Length, Matches} from 'class-validator';
 import {ApiProperty} from "@nestjs/swagger";
 
 export class AuthBaseRequestDto {

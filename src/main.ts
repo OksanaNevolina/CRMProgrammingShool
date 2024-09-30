@@ -12,6 +12,12 @@ async function bootstrap() {
   // process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
   const app = await NestFactory.create(AppModule);
 
+    app.enableCors({
+        origin: 'http://localhost:3000',
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+        credentials: true,
+    });
+
   const config = new DocumentBuilder()
     .setTitle('CRM Programming school API')
     .setDescription('API description')

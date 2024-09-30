@@ -30,4 +30,8 @@ export class OrderService {
       }
     });
   }
+
+  public async findOneById(id: number): Promise<IOrder> {
+    return this.ordersRepository.findOneBy({id})
+  }
 }

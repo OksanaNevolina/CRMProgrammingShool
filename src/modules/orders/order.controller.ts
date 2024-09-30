@@ -1,12 +1,12 @@
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { OrderService } from './services/order.service';
 import { IPaginationResponseDto, IQuery } from './types/pagination.type';
 import { IOrder } from './types/order.type';
 import { OrderMapper } from './services/order.mapper';
 
 @ApiTags('Orders')
-@Controller()
+@Controller('orders')
 export class OrderController {
   constructor(
     private readonly orderService: OrderService,
@@ -15,7 +15,7 @@ export class OrderController {
 
   @ApiOperation({ summary: 'Get all orders' })
   @ApiBearerAuth()
-  @Get('orders')
+  @Get()
   async getAllPaginated(
     @Query() query: IQuery,
   ): Promise<IPaginationResponseDto<IOrder>> {
@@ -24,5 +24,12 @@ export class OrderController {
       this.orderMapper.toDto(order),
     );
     return { ...ordersPaginated, data: mappersOrder };
+  }
+  @ApiOperation({ summary: 'Get order by id' })
+  @ApiBearerAuth()
+  @Get(':id')
+  async getOrderById(@Param('id') id: number) {
+    const order = await this.orderService.findOneById(id);
+    return this.orderMapper.toDto(order);
   }
 }

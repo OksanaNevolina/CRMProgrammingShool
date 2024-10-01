@@ -1,9 +1,11 @@
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import {Body, Controller, Get, Param, Post, Query} from '@nestjs/common';
 import { OrderService } from './services/order.service';
 import { IPaginationResponseDto, IQuery } from './types/pagination.type';
 import { IOrder } from './types/order.type';
 import { OrderMapper } from './services/order.mapper';
+import {CurrentUser} from "../auth/decorators/current-user.decorator";
+import {IUserData} from "../auth/interfaces/user-data.interface";
 
 @ApiTags('Orders')
 @Controller('orders')
@@ -32,4 +34,16 @@ export class OrderController {
     const order = await this.orderService.findOneById(id);
     return this.orderMapper.toDto(order);
   }
+
+  @ApiOperation({ summary: 'Add comment order ' })
+  @ApiBearerAuth()
+  @Post(':id/comment')
+  async addComment(
+      @Param('id') id: number,
+      @CurrentUser() userData: IUserData,
+      @Body() { comment }: { comment: string },
+  ) {
+    return this.orderService.addComment(id, comment, userData);
+  }
 }
+

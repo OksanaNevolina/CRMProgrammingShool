@@ -1,3 +1,5 @@
+import {IComment} from "./comment.type";
+
 export interface IOrder{
     id: number;
     name: string | null;
@@ -16,4 +18,5 @@ export interface IOrder{
     status: string | null;
     manager: string | null;
     group: string | null;
+    comments?: IComment[];
 }

@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { OrdersEntity } from '../../../database/entities/orders.entity';
 import { OrderResponseDto } from '../dto/response/order.response.dto';
+import {IOrder} from "../types/order.type";
 
 @Injectable()
 export class OrderMapper {
-  toDto(order: OrdersEntity): OrderResponseDto {
+  toDto(order: IOrder): OrderResponseDto {
     return {
       id: order.id,
       name: order.name,
@@ -23,6 +24,7 @@ export class OrderMapper {
       status: order.status,
       manager: order.manager,
       group: order.group,
+      comments: order.comments,
     };
   }
 
@@ -45,6 +47,7 @@ export class OrderMapper {
     entity.status = dto.status;
     entity.manager = dto.manager;
     entity.group = dto.group;
+    entity.comments = dto.comments;
 
     return entity;
   }

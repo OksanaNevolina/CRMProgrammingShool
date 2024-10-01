@@ -63,6 +63,7 @@ export class OrdersRepositoryService {
       status: order.status,
       manager: order.manager,
       group: order.group,
+      comments: order.comments,
     }));
 
     return {

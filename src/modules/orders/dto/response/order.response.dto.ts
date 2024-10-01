@@ -1,3 +1,5 @@
+import {IComment} from "../../types/comment.type";
+
 export class OrderResponseDto {
   id: number;
   name: string | null;
@@ -16,4 +18,5 @@ export class OrderResponseDto {
   status: string | null;
   manager: string | null;
   group: string | null;
+  comments?: IComment[];
 }

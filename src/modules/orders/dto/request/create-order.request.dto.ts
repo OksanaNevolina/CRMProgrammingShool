@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import {
+  IsArray,
   IsIn,
   IsInt,
   IsOptional,
@@ -8,9 +9,10 @@ import {
   Length,
   Matches,
   Max,
-  Min,
+  Min, ValidateNested,
 } from 'class-validator';
 import { TransformHelper } from '../../../../common/helpers/transform.helper';
+import {CommentDto} from "./create-comment.request.dto";
 
 export class CreateOrderRequestDto {
   @ApiProperty({ example: 'Anna' })
@@ -96,4 +98,10 @@ export class CreateOrderRequestDto {
   @IsString()
   @IsOptional()
   group: string;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CommentDto)
+  @IsOptional()
+  comments?: CommentDto[];
 }

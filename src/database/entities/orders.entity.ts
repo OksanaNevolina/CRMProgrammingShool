@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 import { TableNameEnum } from '../enums/table-name.enum';
+import {IUserData} from "../../modules/auth/interfaces/user-data.interface";
 
 @Entity(TableNameEnum.ORDERS)
 export class OrdersEntity {
@@ -58,4 +59,7 @@ export class OrdersEntity {
 
   @Column({ type: 'varchar', length: 100, nullable: true })
   group: string;
+
+  @Column('json', { nullable: true })
+  comments: { user: IUserData; comment: string; date: Date }[];
 }

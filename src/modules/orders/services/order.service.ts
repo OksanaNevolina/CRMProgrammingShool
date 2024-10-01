@@ -6,6 +6,8 @@ import { Inject } from '@nestjs/common';
 import { OrdersRepository } from '../../repository/providers/constants';
 import { OrdersEntity } from '../../../database/entities/orders.entity';
 import { OrdersRepositoryService } from '../../repository/repository-services/orders.repository.service';
+import {ICommentPesponseDto} from "../dto/response/comment.response.dto";
+import {IUserData} from "../../auth/interfaces/user-data.interface";
 
 export class OrderService {
   constructor(
@@ -33,5 +35,34 @@ export class OrderService {
 
   public async findOneById(id: number): Promise<IOrder> {
     return this.ordersRepository.findOneBy({id})
+  }
+
+  async addComment(id: number, comment: string, userData: IUserData):Promise<any> {
+    const order = await this.ordersRepository.findOne({ where: { id } });
+    if (!order) {
+      throw new Error('Order not found');
+    }
+
+    if (!order.manager || order.manager === userData.email) {
+      order.manager = userData.email;
+
+      if (!order.status || order.status === 'New') {
+        order.status = 'In Work';
+      }
+
+
+      const newComment = {
+        comment,
+        user:userData,
+        date: new Date(),
+      };
+
+      order.comments = order.comments ? [...order.comments, newComment] : [newComment];
+      await this.ordersRepository.save(order);
+
+      return { order, comment: newComment };
+    } else {
+      throw new Error('Order is already taken by another manager');
+    }
   }
 }

@@ -42,7 +42,7 @@ export class OrderController {
       @Param('id') id: number,
       @CurrentUser() userData: IUserData,
       @Body() { comment }: { comment: string },
-  ) {
+  ):Promise<IOrder> {
     return this.orderService.addComment(id, comment, userData);
   }
 }

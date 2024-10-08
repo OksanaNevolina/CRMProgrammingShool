@@ -57,33 +57,32 @@ export class UserService {
     });
   }
 
-  public async deleteMe(userData: IUserData): Promise<void> {
-    await this.entityManager.transaction(async (em: EntityManager) => {
-      const refreshTokenRepository = em.getRepository(RefreshTokenEntity);
-      const userRepository = em.getRepository(UsersEntity);
-      try {
-        const user = await this.findByIdOrThrow(userData.id, em);
-        if (!user) {
-          throw new NotFoundException('User not found');
-        }
-
-        const refreshTokens = await refreshTokenRepository.find({
-          where: { user: { id: userData.id } },
-        });
-
-        await refreshTokenRepository.delete({ user: user });
-        await Promise.all(
-          refreshTokens.map(async (token) => {
-            await refreshTokenRepository.remove(token);
-          }),
-        );
-
-        await userRepository.remove(user);
-      } catch (error) {
-        throw new UnprocessableEntityException('Failed to delete user data');
-      }
-    });
-  }
+  // public async deleteMe(userData: IUserData): Promise<void> {
+  //   await this.entityManager.transaction(async (em: EntityManager) => {
+  //     const refreshTokenRepository = em.getRepository(RefreshTokenEntity);
+  //     const userRepository = em.getRepository(UsersEntity);
+  //     try {
+  //       const user = await this.findByIdOrThrow(userData.id, em);
+  //       if (!user) {
+  //         throw new NotFoundException('User not found');
+  //       }
+  //       const refreshTokens = await refreshTokenRepository.find({
+  //         where: { user: { id: userData.id } },
+  //       });
+  //
+  //
+  //       await refreshTokenRepository.delete({ user: { id: userData.id } });
+  //
+  //
+  //       await userRepository.remove(user);
+  //
+  //
+  //     } catch (error) {
+  //       throw new UnprocessableEntityException('Failed to delete user data');
+  //     }
+  //   });
+  // }
+  //
 
   public async findByIdOrThrow(
     userId: number,

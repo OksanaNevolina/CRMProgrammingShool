@@ -28,10 +28,10 @@ export class UserController {
   ): Promise<UserResponseDto> {
     return await this.userService.updateMe(userData, dto);
   }
-  @ApiOperation({ summary: 'Delete me' })
-  @ApiBearerAuth()
-  @Delete('delete-me')
-  public async deleteMe(@CurrentUser() userData: IUserData): Promise<void> {
-    await this.userService.deleteMe(userData);
-  }
+  // @ApiOperation({ summary: 'Delete me' })
+  // @ApiBearerAuth()
+  // @Delete('delete-me')
+  // public async deleteMe(@CurrentUser() userData: IUserData): Promise<void> {
+  //   await this.userService.deleteMe(userData);
+  // }
 }

@@ -1,4 +1,5 @@
 import {IComment} from "../../types/comment.type";
+import {GroupsEntity} from "../../../../database/entities/groups.entity";
 
 export class OrderResponseDto {
   id: number;
@@ -17,6 +18,6 @@ export class OrderResponseDto {
   msg: string | null;
   status: string | null;
   manager: string | null;
-  group: string | null;
+  group: GroupsEntity | null;
   comments?: IComment[];
 }

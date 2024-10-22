@@ -1,11 +1,23 @@
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import {Body, Controller, Get, Param, Post, Query} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { OrderService } from './services/order.service';
 import { IPaginationResponseDto, IQuery } from './types/pagination.type';
 import { IOrder } from './types/order.type';
 import { OrderMapper } from './services/order.mapper';
-import {CurrentUser} from "../auth/decorators/current-user.decorator";
-import {IUserData} from "../auth/interfaces/user-data.interface";
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { IUserData } from '../auth/interfaces/user-data.interface';
+import { UpdateOrderDto } from './dto/request/update-order.request.dto';
+import { CreateGroupDto } from './dto/request/create-group.request.dto';
+import { CreateGroupResponse } from './dto/response/create-group.response.dto';
+import {GroupsEntity} from "../../database/entities/groups.entity";
 
 @ApiTags('Orders')
 @Controller('orders')
@@ -27,6 +39,14 @@ export class OrderController {
     );
     return { ...ordersPaginated, data: mappersOrder };
   }
+  @ApiOperation({ summary: 'Get groups' })
+  @ApiBearerAuth()
+  @Get('group-all')
+  async getGroups(
+  ):Promise<GroupsEntity[]>  {
+    return  await this.orderService.getAllGroups();
+  }
+
   @ApiOperation({ summary: 'Get order by id' })
   @ApiBearerAuth()
   @Get(':id')
@@ -39,11 +59,30 @@ export class OrderController {
   @ApiBearerAuth()
   @Post(':id/comment')
   async addComment(
-      @Param('id') id: number,
-      @CurrentUser() userData: IUserData,
-      @Body() { comment }: { comment: string },
-  ):Promise<IOrder> {
+    @Param('id') id: number,
+    @CurrentUser() userData: IUserData,
+    @Body() { comment }: { comment: string },
+  ): Promise<IOrder> {
     return this.orderService.addComment(id, comment, userData);
   }
-}
 
+  @ApiOperation({ summary: 'Update order by id' })
+  @ApiBearerAuth()
+  @Patch('update/:id')
+  async updateOrder(
+    @Param('id') id: number,
+    @Body() updateOrderDto: UpdateOrderDto,
+    @CurrentUser() userData: IUserData,
+  ) {
+    return this.orderService.updateOrder(id, updateOrderDto, userData);
+  }
+
+  @ApiOperation({ summary: 'Create group' })
+  @ApiBearerAuth()
+  @Post('group')
+  async createGroup(
+    @Body() createGroupDto: CreateGroupDto,
+  ): Promise<CreateGroupResponse> {
+    return await this.orderService.createGroup(createGroupDto);
+  }
+}

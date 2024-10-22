@@ -2,10 +2,11 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  CreateDateColumn,
+  CreateDateColumn, ManyToOne, JoinColumn,
 } from 'typeorm';
 import { TableNameEnum } from '../enums/table-name.enum';
 import {IUserData} from "../../modules/auth/interfaces/user-data.interface";
+import {GroupsEntity} from "./groups.entity";
 
 @Entity(TableNameEnum.ORDERS)
 export class OrdersEntity {
@@ -57,8 +58,9 @@ export class OrdersEntity {
   @Column({ type: 'varchar', length: 100, nullable: true })
   manager: string;
 
-  @Column({ type: 'varchar', length: 100, nullable: true })
-  group: string;
+  @ManyToOne(() => GroupsEntity, (group) => group.orders)
+  @JoinColumn({ name: 'groupId' })
+  group: GroupsEntity;
 
   @Column('json', { nullable: true })
   comments: { user: IUserData; comment: string; date: Date }[];

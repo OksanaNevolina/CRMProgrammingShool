@@ -5,6 +5,7 @@ import {MysqlModule} from "../../mysql/mysql.module";
 import {ordersProviders} from "../repository/providers/orders.providers";
 import {OrderMapper} from "./services/order.mapper";
 import {OrdersRepositoryService} from "../repository/repository-services/orders.repository.service";
+import {groupsProviders} from "../repository/providers/groups.providers";
 
 
 @Module({
@@ -12,6 +13,7 @@ import {OrdersRepositoryService} from "../repository/repository-services/orders.
     controllers: [OrderController],
     providers: [
         ...ordersProviders,
+        ...groupsProviders,
         OrderService,
         OrderMapper,
         OrdersRepositoryService

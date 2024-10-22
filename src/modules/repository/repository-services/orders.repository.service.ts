@@ -37,12 +37,13 @@ export class OrdersRepositoryService {
         : 'DESC';
 
     const ordersPagination = await paginate<OrdersEntity>(
-      this.ordersRepository,
-      options,
-      {
-        where: searchObject as FindOptionsWhere<OrdersEntity>,
-        order: { [order]: orderDirection },
-      },
+        this.ordersRepository,
+        options,
+        {
+          where: searchObject as FindOptionsWhere<OrdersEntity>,
+          relations: ['group'],
+          order: { [order]: orderDirection },
+        },
     );
 
     const data = ordersPagination.items.map((order) => ({

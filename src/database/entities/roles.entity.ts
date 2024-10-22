@@ -1,4 +1,4 @@
-// roles.entity.ts
+
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
 
 import { TableNameEnum } from '../enums/table-name.enum';

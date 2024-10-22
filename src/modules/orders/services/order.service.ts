@@ -50,8 +50,12 @@ export class OrderService {
   }
 
   public async findOneById(id: number): Promise<IOrder> {
-    return this.ordersRepository.findOneBy({ id });
+    return this.ordersRepository.findOne({
+      where: { id },
+      relations: ['group']
+    });
   }
+
 
   async addComment(
     id: number,
@@ -107,7 +111,18 @@ export class OrderService {
         throw new ForbiddenException('You cannot edit this order');
       }
 
-      // Якщо передано groupId, оновлюємо групу заявки
+      order.name = updateOrderDto.name || order.name;
+      order.surname = updateOrderDto.surname || order.surname;
+      order.email = updateOrderDto.email || order.email;
+      order.phone = updateOrderDto.phone || order.phone;
+      order.age = updateOrderDto.age || order.age;
+      order.course = updateOrderDto.course || order.course;
+      order.course_format = updateOrderDto.course_format || order.course_format;
+      order.course_type = updateOrderDto.course_type || order.course_type;
+      order.sum = updateOrderDto.sum || order.sum;
+      order.alreadyPaid = updateOrderDto.alreadyPaid || order.alreadyPaid;
+      order.status = updateOrderDto.status || order.status;
+
       if (updateOrderDto.groupId) {
         const group = await this.groupsRepository.findOne({
           where: { id: updateOrderDto.groupId },
@@ -119,10 +134,12 @@ export class OrderService {
       }
 
       return await this.ordersRepository.save(order);
-    } catch (error) {
-      throw new Error('Order not found or You cannot edit this order');
+    }catch (error) {
+      console.error('Error updating order:', error); // Логуємо деталі помилки
+      throw new Error('An unexpected error occurred');
     }
   }
+
 
 
   async getAllGroups(): Promise<GroupsEntity[]> {

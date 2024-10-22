@@ -50,15 +50,13 @@ export class UpdateOrderDto {
   @IsEnum(CourseFormatEnum)
   course_format?: CourseFormatEnum;
 
-  @IsOptional()
-  @IsInt()
-  @Min(0)
-  sum?: number;
+  @IsInt({ message: 'Sum must be an integer number' })
+  @Min(0, { message: 'Sum must not be less than 0' })
+  sum: number;
 
-  @IsOptional()
-  @IsInt()
-  @Min(0)
-  alreadyPaid?: number;
+  @IsInt({ message: 'AlreadyPaid must be an integer number' })
+  @Min(0, { message: 'AlreadyPaid must not be less than 0' })
+  alreadyPaid: number;
 
   @IsOptional()
   groupId?: number;
